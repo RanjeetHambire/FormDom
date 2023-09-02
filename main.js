@@ -11,6 +11,7 @@ function addItem(e){
 
     //get input value
     var newItem = document.getElementById('item').value;
+    var newItem2 = document.getElementById('item1').value;
     //create new li item
     var li = document.createElement('li');
     //add class to li item
@@ -18,6 +19,7 @@ function addItem(e){
 
     // add text node with input value
     li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(" " + newItem2));
 
     //create delete button 
     var deletebtn = document.createElement('button');
@@ -67,6 +69,7 @@ function filterItems(e){
         }else{
             item.style.display = 'none';
         }
+        
     });
 
 }
