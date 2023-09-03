@@ -1,69 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Appoinment App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Appointment Booking App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-
 <body>
     <div class="container mb-3 border border-warning rounded bg-light">
         <div class="container ">
             <p class="text-warning text-center h4">Book a call</p>
             <p class="text-center">Book a call and our Representative call you within one hour of selected time.</p>
         </div>
-        <form id="userForm">
-            <label for="name" class="form-label">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+    <form id="userForm">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" id="name" class="form-control" required>
+        
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" id="email" class="form-control" required>
+        
+        <label for="phone" class="form-label">Phone Number:</label>
+        <input type="tel" id="phone" class="form-control" required>
+        
+        <button type="submit" class="btn btn-warning large my-3 w-100">Book A Call</button>
+    </form>
 
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
 
-            <label for="phone" class="form-label">Phone Number:</label>
-            <input type="tel" class="form-control" id="phone" name="phone" required>
+    <h2 class="text-warning text-center h4">User List</h2>
+    <ul id="userList"></ul>
+</div>
 
-            <input type="submit" class="btn btn-warning large my-3 w-100" value="Register">
-        </form>
-    </div>
-
-    <script>
-        // Function to add a new user to LocalStorage
-        function addUserToLocalStorage(user) {
-            // Retrieve the existing users from LocalStorage or initialize an empty array
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-
-            // Add the new user to the array
-            users.push(user);
-
-            // Store the updated array back in LocalStorage
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-
-        // Event listener for form submission
-        document.getElementById('userForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Get the form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-
-            // Create a user object
-            const user = { name, email, phone };
-
-            // Add the user to LocalStorage
-            addUserToLocalStorage(user);
-
-            // Clear the form
-            this.reset();
-
-            // Display a message or update the UI
-            alert('Appoinment Booked successfully!');
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
-
 </html>
