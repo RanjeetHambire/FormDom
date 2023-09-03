@@ -1,57 +1,66 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const userForm = document.getElementById('userForm');
+// Function to add a user to Local Storage
+function addUserToLocalStorage(user) {
+    let userList = JSON.parse(localStorage.getItem('userList') || '[]');
+    userList.push(user);
+    localStorage.setItem('userList', JSON.stringify(userList));
+}
+
+// Function to display users in the UI
+function displayUsers() {
     const userList = document.getElementById('userList');
+    userList.innerHTML = '';
 
-    // Load users from LocalStorage when the page loads
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    const storedUsers = JSON.parse(localStorage.getItem('userList') || '[]');
 
-    // Function to display users in the UI
-    function displayUsers() {
-        userList.innerHTML = '';
-        users.forEach((user, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <strong>Name:</strong> ${user.name}<br>
-                <strong>Email:</strong> ${user.email}<br>
-                <strong>Phone:</strong> ${user.phone}<br>
-                <button class="delete-user" data-index="${index}">Delete</button>
-            `;
-            userList.appendChild(li);
-        });
-    }
-
-    // Function to add a new user
-    function addUser(name, email, phone) {
-        users.unshift({ name, email, phone });
-        localStorage.setItem('users', JSON.stringify(users));
-        displayUsers();
-    }
-
-    // Function to delete a user
-    function deleteUser(index) {
-        users.splice(index, 1);
-        localStorage.setItem('users', JSON.stringify(users));
-        displayUsers();
-    }
-
-    // Handle form submission
-    userForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        addUser(name, email, phone);
-        userForm.reset();
+    storedUsers.forEach((user, index) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <span>${user.name} - ${user.email} - ${user.phone}</span>
+            <button onclick="editUser(${index})">Edit</button>
+            <button onclick="deleteUser(${index})">Delete</button>
+        `;
+        userList.appendChild(listItem);
     });
+}
 
-    // Handle user deletion
-    userList.addEventListener('click', function (e) {
-        if (e.target.classList.contains('delete-user')) {
-            const index = parseInt(e.target.getAttribute('data-index'));
-            deleteUser(index);
-        }
-    });
-
-    // Initial display
+// Function to delete a user from Local Storage and UI
+function deleteUser(index) {
+    const storedUsers = JSON.parse(localStorage.getItem('userList') || '[]');
+    storedUsers.splice(index, 1);
+    localStorage.setItem('userList', JSON.stringify(storedUsers));
     displayUsers();
+}
+
+// Function to edit a user's email
+function editUser(index) {
+    const storedUsers = JSON.parse(localStorage.getItem('userList') || '[]');
+    const newEmail = prompt('Enter new email:');
+    
+    if (newEmail) {
+        storedUsers[index].email = newEmail;
+        localStorage.setItem('userList', JSON.stringify(storedUsers));
+        displayUsers();
+    }
+}
+
+// Event listener for form submission
+document.getElementById('userForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+
+    const user = { name, email, phone };
+
+    addUserToLocalStorage(user);
+    displayUsers();
+
+    // Clear form fields
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
 });
+
+// Initial display of users
+displayUsers();
